@@ -1,0 +1,547 @@
+/* Golbal Styles */
+@import url("https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,400;1,700&family=Black+Ops+One&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Press+Start+2P&text=DragonBallTACTICS&display=swap");
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+}
+
+.d-none {
+  display: none;
+}
+
+:root {
+  font-size: 62.5%;
+  --main-font: "Poppins", sans-serif;
+  --name-font: "Black Ops One", cursive;
+  --blue-color: #40c9ff;
+  --blue-value: 20, 112, 170;
+  /* --lime-color : rgb(81, 238, 191); */
+  --lime-color: #26f5ee;
+  --lime-value: 38, 245, 238;
+  --green-color: #6ae652;
+  --green-value: 106, 230, 82;
+  --yellow-color: #f3d127;
+  --yellow-value: 243, 209, 39;
+  --orange-color: #de683d;
+  --orange-value: 222, 104, 61;
+  --red-color: #f72727;
+  --red-value: 247, 39, 39;
+  --stat-color: #000046;
+  /* --stat-color: #970707; */
+  --stat-value: 151, 7, 7;
+  --will: 80%;
+  --pride: 64%;
+}
+
+img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+body {
+  background-image: radial-gradient(circle, #e7f0f7 0%, #94aabf 100%);
+  font-family: var(--main-font);
+  overflow-x: hidden;
+}
+
+/* Header */
+
+header {
+  background-image: url("/img/header/dd9hz4s-9028ee7b-6d9c-4e4d-b7b1-48caacd9c434.png");
+  background-size: cover;
+  background-position: 50% 75%;
+  border-bottom: 3px solid black;
+  height: 10rem;
+  max-height: 150px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+header h1 {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 2rem;
+  font-family: "Press Start 2P", cursive;
+  font-size: 3.5rem;
+  color: #cb3704;
+  text-shadow: -1px -1px 0 white, 1px -1px 0 white, -1px 1px 0 white, 1px 1px 0 white;
+}
+
+header h1 img {
+  width: 5rem;
+}
+
+header h1 div {
+  flex-basis: 36rem;
+  flex-shrink: 0;
+}
+
+/* ************* */
+/* Arena */
+
+.arena {
+  position: relative;
+  display: grid;
+  grid-template-columns: 1fr 1.2fr 1fr;
+  width: 120rem;
+  height: 47.5rem;
+  margin: 1rem auto 0;
+  /* transition: all 0.6s ease 0.4s; */
+}
+
+.arena.battle {
+  grid-template-columns: 1fr 1fr;
+}
+
+/* Arena Battle Start */
+.arena .battle-bell {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%) scale(1.5);
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.1s ease 1.2s, transform 0.3s ease 1.2s;
+}
+
+.arena.battle .battle-bell {
+  opacity: 1;
+  visibility: visible;
+  transform: translateX(-50%) scale(0.4);
+}
+
+/* Arena Character Profile */
+.arena .player-info {
+  width: 35rem;
+  /* height: 47.5rem; */
+  margin: 0 auto;
+  border: 2px solid var(--stat-color);
+  padding: 0.7rem 1rem;
+  color: rgb(54, 54, 54);
+}
+
+.arena .player-info .avatar {
+  display: flex;
+  flex-direction: row-reverse;
+  justify-items: center;
+  align-items: center;
+}
+
+.arena .player-info .avatar-name {
+  display: inline-block;
+  margin-right: auto;
+  color: var(--stat-color);
+  font-family: var(--name-font);
+  font-size: 3rem;
+  font-weight: normal;
+}
+
+.arena .player-info .avatar img {
+  width: 6rem;
+  height: 6rem;
+  border-radius: 100vh;
+}
+.arena .player-info .avatar-race {
+  margin-right: 0.5rem;
+  text-align: right;
+  line-height: 1.3;
+}
+.arena .player-info .avatar-race h3 {
+  font-weight: normal;
+  color: rgb(90, 90, 90);
+}
+.arena .player-info .avatar-race p {
+  font-size: 1.7rem;
+  color: var(--stat-color);
+}
+
+.arena .player-info .radar {
+  margin: 0.5rem;
+  position: relative;
+}
+
+.arena .player-info .radar > * {
+  display: block;
+  margin: 0 auto;
+}
+
+.arena .player-info .radar img {
+  width: 16rem;
+  height: 16rem;
+  object-fit: contain;
+}
+
+.arena .player-info .radar .radar-cookie {
+  /* display: none; */
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 13rem;
+  height: 13rem;
+  transform: translate(-50%, -47%);
+  clip-path: polygon(50% 4.5%, 96.93% 38.59%, 79.3% 94.4%, 20.7% 94.4%, 3.07% 38.59%);
+  background: linear-gradient(45deg, rgba(255, 103, 110, 1) 0%, rgb(255, 198, 128) 100%);
+  opacity: 0.85;
+}
+
+.arena .player-info section > h3 {
+  margin: 1.4rem 0 0.9rem;
+  padding: 0 0.5rem;
+  width: 65%;
+  background: linear-gradient(to left, #e48265 0%, #df4d4d 100%);
+  letter-spacing: 1px;
+  color: white;
+  transform: skew(-20deg);
+  box-shadow: 1px 1px rgb(121, 55, 55), 2px 2px rgb(131, 54, 54);
+}
+
+.arena .player-info .ability p {
+  letter-spacing: 1px;
+  line-height: 1.3;
+}
+
+.arena .player-info .attribute-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+}
+
+.arena .player-info .attribute-bar {
+  width: 80%;
+  height: 0.6rem;
+  background-image: linear-gradient(to right, #d31027 0%, #ea384d 100%);
+  border-radius: 100vh;
+}
+
+.arena .player-info .will .attribute-bar {
+  width: var(--will);
+}
+.arena .player-info .pride .attribute-bar {
+  width: var(--pride);
+}
+
+.arena .player-info .attribute h4 {
+  font-size: 1.1rem;
+  font-weight: normal;
+  letter-spacing: 1px;
+}
+
+.arena .player-info .skills {
+  font-size: 1.4rem;
+  margin-top: 1rem;
+  grid-column: span 2;
+}
+
+.arena .player-info .skills div {
+  display: inline-block;
+  margin: 0.5rem 0.25rem;
+  margin-bottom: 0;
+  width: 5.95rem;
+  height: 5.95rem;
+  background-color: var(--stat-color);
+  border-radius: 100vh;
+}
+
+.arena .player-info .skills img {
+  width: 95%;
+  height: 95%;
+  border: 2px solid var(--stat-color);
+  border-radius: 100vh;
+}
+
+/* Arena Players */
+
+.arena .player-1 {
+  margin-left: 0;
+  margin-right: 6rem;
+  justify-self: start;
+  transform: translateX(12rem);
+  /* We are giving an initial translation so that we don't have to animate the width which cause jittering */
+}
+.arena .player-2 {
+  margin-left: 6rem;
+  margin-right: 0;
+  justify-self: end;
+  transform: translateX(-12rem);
+}
+
+.arena .players {
+  display: flex;
+  flex-direction: column;
+  align-self: end;
+  transition: all 0.6s ease 0.4s;
+}
+.arena.battle .player-1 {
+  transform: translate(6rem, 10rem);
+}
+.arena.battle .player-2 {
+  transform: translate(-6rem, 10rem);
+}
+
+.arena .player-box {
+  width: 17rem;
+  /* align-self: end; */
+}
+.arena .player-1 .player-box {
+  align-self: start;
+}
+.arena .player-2 .player-box {
+  align-self: end;
+}
+.arena .player-box img {
+  height: 40rem;
+  object-fit: contain;
+}
+
+/* ***************** */
+/* Player-stats */
+
+.arena .player-stats {
+  position: absolute;
+  top: -8rem;
+  display: none;
+}
+
+.arena .player-1 .player-stats {
+  left: 0;
+}
+
+.arena .player-2 .player-stats {
+  right: 0;
+}
+
+.arena.battle .player-stats {
+  display: block;
+}
+
+.arena .player-stats .player-bar {
+  margin-bottom: 0.2rem;
+  border: 2px solid rgba(0, 0, 0, 0.719);
+  background-color: rgba(0, 0, 0, 0.719);
+  transform: skew(-20deg);
+  /* border-radius: 1px; */
+}
+
+.arena .player-stats .player-bar .barfill {
+  display: block;
+  width: 100%;
+  height: 100%;
+  /* border-radius: 1px; */
+  /* background-color: var(--red-color); */
+}
+
+.arena .player-2 .player-bar {
+  margin-left: auto;
+  transform: skew(20deg);
+}
+
+.arena .player-bar.health {
+  width: 45rem;
+  height: 1.5rem;
+  margin-bottom: 0.3rem;
+}
+.arena .player-bar.rage {
+  width: 35rem;
+  height: 1.2rem;
+}
+
+.arena .player-bar.health .barfill {
+  background-color: var(--blue-color);
+}
+.arena .player-bar.rage .barfill {
+  background-color: var(--red-color);
+}
+
+.arena .players .transform-bar {
+  position: absolute;
+  width: 200px;
+  height: 200px;
+  top: 150px;
+}
+
+.arena .player-1 .transform-bar {
+  left: -140px;
+}
+.arena .player-2 .transform-bar {
+  right: -140px;
+  transform: rotateY(180deg);
+}
+
+.arena .players .transform-bar img {
+  position: absolute;
+  bottom: 0;
+}
+
+.arena .players .transform-bar .bottom {
+  opacity: 0.9;
+}
+
+.arena .players .transform-border {
+  /* position: absolute; */
+  /* bottom: 0; */
+  width: 200px;
+  height: 200px;
+  background-color: transparent;
+  border: 2px solid black;
+  clip-path: path(
+    "M 79.2 186.912 Q 79.2 190.08 76.032 190.08 L 50.688 190.08 Q 47.52 190.08 47.52 186.912 Q 20.592 53.856 31.68 17.424 Q 32.1552 15.6816 34.848 15.84 L 90.288 15.84 Q 93.456 15.84 91.872 19.008 Q 64.944 60.192 71.28 123.552 Z"
+  );
+  transform: translate(45px, -03px) scale(1.12, 1.13);
+}
+
+.arena .players .transform-fill {
+  position: absolute;
+  bottom: 0;
+  width: 200px;
+  height: 100px;
+  background-color: #fff835;
+}
+
+.arena .players .player-data {
+  /* width: 17rem; */
+  text-align: center;
+  margin: auto;
+  margin-top: 2rem;
+}
+
+.arena .players .player-name {
+  font-family: var(--name-font);
+  font-size: 3rem;
+  color: var(--stat-color);
+  margin-bottom: 1rem;
+}
+
+/* Characters */
+
+.characters {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  width: 66%;
+  margin: 1.5rem auto 2rem;
+}
+
+.characters .character {
+  width: 8rem;
+  height: 8rem;
+  margin: 0.5rem;
+  border: 2px solid black;
+  border-radius: 2px;
+  position: relative;
+}
+
+.characters .character::after {
+  content: "";
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+
+.characters .character:hover {
+  transform: scale(1.1);
+}
+.characters .character:hover::after {
+  background-color: rgba(255, 255, 255, 0.2);
+}
+
+.characters .character img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* Buttons */
+
+.game-btn {
+  display: block;
+  margin: 2rem auto;
+  font-size: 3rem;
+  font-family: inherit;
+  border: 2px solid rgb(255, 109, 109);
+  box-shadow: -1px 1px rgb(121, 55, 55), -2px 2px rgb(131, 54, 54), -3px 3px rgb(102, 37, 37),
+    -4px 4px rgb(102, 37, 37);
+  cursor: pointer;
+  background-color: #ff5e5e;
+  color: white;
+  transition: all 0.1s cubic-bezier(0.59, 0, 0.68, 0.19);
+}
+
+.game-btn:active {
+  border: 2px solid rgb(255, 96, 96);
+  box-shadow: -1px 1px rgb(121, 55, 55);
+  transform: translate(-3px, 3px);
+  transition: none;
+}
+
+/* Global */
+
+/* Tooltip */
+
+.tooltipElement {
+  position: relative;
+  display: inline-block;
+  cursor: pointer;
+}
+
+.tooltipElement .tooltipText {
+  position: absolute;
+  top: -6px;
+  left: 50%;
+  padding: 0.5em;
+  font-size: 0.95em;
+  width: max-content;
+  max-width: 20rem;
+  background: rgb(225, 225, 255);
+  color: black;
+  border-radius: 2px;
+  border: 1px solid var(--stat-color);
+  transform: translate(-50%, -50%) scale(0.5);
+  opacity: 0;
+  visibility: hidden;
+}
+
+.tooltipElement:hover .tooltipText {
+  opacity: 1;
+  visibility: visible;
+  transform: translate(-50%, -100%) scale(1);
+}
+
+/* Media Queries */
+
+@media screen and (max-width: 1366px) {
+  :root {
+    font-size: 46.5%;
+  }
+  .arena .player-1 .transform-bar {
+    transform: scale(0.75);
+  }
+  .arena .player-2 .transform-bar {
+    transform: scale(0.75) rotateY(180deg);
+  }
+  .arena .player-info {
+    width: 38rem;
+  }
+  .arena .player-info .ability p {
+    font-size: 1.1rem;
+  }
+  .arena .player-info .attribute h4 {
+    font-size: 1.2rem;
+  }
+}
+
+@media screen and (max-width: 900px) {
+  :root {
+    font-size: 40%;
+  }
+  .arena .player-1 .transform-bar {
+    transform: scale(0.64);
+  }
+  .arena .player-2 .transform-bar {
+    transform: scale(0.64) rotateY(180deg);
+  }
+}

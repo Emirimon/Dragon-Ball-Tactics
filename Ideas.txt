@@ -1,0 +1,37 @@
+Dragon Turn Z
+Dodge
+Health, Strength, Defense, Agility, Speed, Chi
+Attack/Restore
+Jumping/Flying Attack
+Poison Effect
+Sacrifice
+Motivation
+Defense/Block based on Pride
+Attack multiple times in one Turn
+Different damage with same move
+Different damage based on current status of player
+
+Super Mario RPG
+Attack, Specials, Items, Defense, Run Away
+Attack - Timed Attacks (Critical Hits)
+Clash Mode - (Do a certain Sequence or hit letter repeatedly)
+
+Chrono Trigger
+Group combos / Combined Attacks
+
+Devil May Cry
+Give Comments on the attacks to keep it interesting
+Perfect, Stylish, Super, Awful
+
+Darkest dungeon
+Give characters personality traits that affects their moves & consequences
+
+Android Game Inspirations
+
+Mafioso
+Rage Mode (Rage Meter)
+Timed Turns
+Multiple turns
+Attack multiple enemies
+Background Music
+
