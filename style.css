@@ -102,18 +102,32 @@ header h1 div {
 .arena .battle-bell {
   position: absolute;
   left: 50%;
-  transform: translateX(-50%) scale(1.5);
   opacity: 0;
   visibility: hidden;
-  transition: opacity 0.1s ease 1.2s, transform 0.3s ease 1.2s;
+  transform: translateX(-50%) scale(1.5);
 }
 
 .arena.battle .battle-bell {
-  opacity: 1;
-  visibility: visible;
-  transform: translateX(-50%) scale(0.4);
+  animation: battle-bell1 0.3s ease 1.5s, battle-bell2 0.3s ease 3s;
+  animation-fill-mode: forwards;
 }
 
+@keyframes battle-bell1 {
+  33% {
+    opacity: 1;
+    visibility: visible;
+  }
+  100% {
+    opacity: 1;
+    visibility: visible;
+    transform: translateX(-50%) scale(0.4);
+  }
+}
+@keyframes battle-bell2 {
+  to {
+    transform: translate(-50%, -43.5%) scale(0.2);
+  }
+}
 /* Arena Character Profile */
 .arena .player-info {
   width: 35rem;
@@ -301,20 +315,46 @@ header h1 div {
 
 .arena .player-stats {
   position: absolute;
-  top: -8rem;
+  top: -10rem;
   display: none;
+  gap: 1rem;
 }
 
 .arena .player-1 .player-stats {
-  left: 0;
+  left: -8rem;
 }
 
 .arena .player-2 .player-stats {
-  right: 0;
+  flex-direction: row-reverse;
+  right: -8rem;
+}
+
+.arena .player-stats .avatar {
+  width: 10rem;
+}
+
+.arena .player-stats .avatar img {
+  display: block;
+  margin: auto;
+  width: 7rem;
+  height: 7rem;
+  border-radius: 100vh;
+}
+
+.arena .player-stats .avatar .avatar-name {
+  font-family: var(--name-font);
+  font-size: 2.5rem;
+  font-weight: normal;
+  color: var(--stat-color);
+  text-align: center;
 }
 
 .arena.battle .player-stats {
-  display: block;
+  display: flex;
+}
+
+.arena .player-stats .player-bars {
+  margin-top: 1.5rem;
 }
 
 .arena .player-stats .player-bar {
@@ -340,12 +380,16 @@ header h1 div {
 
 .arena .player-bar.health {
   width: 45rem;
-  height: 1.5rem;
+  height: 1.75rem;
   margin-bottom: 0.3rem;
 }
 .arena .player-bar.rage {
   width: 35rem;
-  height: 1.2rem;
+  height: 1.3rem;
+}
+.arena .player-bar.transform {
+  width: 30rem;
+  height: 1.3rem;
 }
 
 .arena .player-bar.health .barfill {
@@ -354,19 +398,22 @@ header h1 div {
 .arena .player-bar.rage .barfill {
   background-color: var(--red-color);
 }
+.arena .player-bar.transform .barfill {
+  background-color: var(--lime-color);
+}
 
 .arena .players .transform-bar {
   position: absolute;
   width: 200px;
   height: 200px;
-  top: 150px;
+  bottom: 4.75rem;
 }
 
 .arena .player-1 .transform-bar {
-  left: -140px;
+  left: -22rem;
 }
 .arena .player-2 .transform-bar {
-  right: -140px;
+  right: -22rem;
   transform: rotateY(180deg);
 }
 
@@ -539,9 +586,9 @@ header h1 div {
     font-size: 40%;
   }
   .arena .player-1 .transform-bar {
-    transform: scale(0.64);
+    transform: translateY(2.5rem) scale(0.64);
   }
   .arena .player-2 .transform-bar {
-    transform: scale(0.64) rotateY(180deg);
+    transform: translateY(2.5rem) scale(0.64) rotateY(180deg);
   }
 }
