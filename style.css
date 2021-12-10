@@ -128,6 +128,35 @@ header h1 div {
     transform: translate(-50%, -43.5%) scale(0.2);
   }
 }
+
+/* Arena Battle Control */
+
+.arena .battle-control {
+  display: flex;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  /* opacity: 0; */
+  /* visibility: hidden; */
+  transform: translate(-50%,800%);
+  /* transition: all 0.5s ease 5s; */
+}
+
+.arena.battle .battle-control {
+  opacity: 1;
+  visibility: visible;
+}
+
+.arena .battle-control img {
+  width: 8rem;
+  height: 8rem;
+  padding: 1rem;
+  border-radius: 100vh;
+  background-color: white;
+  box-shadow: inset 0 0 3px rgb(0 0 0 / 50%);
+  object-fit: contain;
+}
+
 /* Arena Character Profile */
 .arena .player-info {
   width: 35rem;
