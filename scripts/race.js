@@ -5,22 +5,26 @@ class Character {
     this.name = name;
     this.race = charObj.race;
     this.init = function () {
-      this.stats = {
-        strength: this.initial.strength + charObj.stats[0][this.level],
-        resilience: this.initial.resilience + charObj.stats[1][this.level],
-        speed: this.initial.speed + charObj.stats[2][this.level],
-        fightIQ: this.initial.intelligence + charObj.stats[3][this.level],
+      this.attributes = {
+        strength: this.initial.strength + charObj.attributes[0][this.stats.level],
+        resilience: this.initial.resilience + charObj.attributes[1][this.stats.level],
+        speed: this.initial.speed + charObj.attributes[2][this.stats.level],
+        fightIQ: this.initial.intelligence + charObj.attributes[3][this.stats.level],
       };
       this.will = charObj.will;
       this.pride = charObj.pride;
       this.abilities = charObj.abilities;
+      this.stats.ki = 50 - this.charge * 2;
+      this.stats.resolve = 70 - (this.will + this.pride) * 3;
     };
   }
   /* 3 meters */
-  health = 1000;
-  resolve = 0;
-  ki = 0;
-  level = 0; /* Starting level */
+  stats = {
+    health: 1000,
+    resolve: 0,
+    ki: 0,
+    level: 0 /* Starting level */,
+  };
 
   injury = {
     upper: 0 /* Compromise Punch Attacks */,
@@ -31,11 +35,11 @@ class Character {
   /* Init method can use variables of child class to calculate new variables by calling it from child class*/
 
   get power() {
-    return this.stats.strength + this.stats.fightIQ;
+    return this.attributes.strength + this.attributes.fightIQ;
   }
 
   get defense() {
-    return this.stats.resilience + this.stats.fightIQ;
+    return this.attributes.resilience + this.attributes.fightIQ;
   }
 
   punch() {
@@ -48,7 +52,7 @@ class Character {
 
   strike(moveNumber) {
     const damageCriteria = this.abilities[moveNumber].damage;
-    const healthDamage = this.power * damageCriteria.health + (Math.random() * 100 - 50);
+    const healthDamage = this.power * damageCriteria.health + (Math.random() * 1000 - 500);
     let injury = [];
     injury[0] = 1 - Math.random() - damageCriteria.upper > 0 ? 0 : 1;
     injury[1] = 1 - Math.random() - damageCriteria.lower > 0 ? 0 : 1;
@@ -58,7 +62,8 @@ class Character {
 
   defend(damagePassed) {
     const damageRecieved = damagePassed / this.defense;
-    this.health -= damageRecieved;
+    this.stats.health -= damageRecieved;
+    console.log(damageRecieved);
     return damageRecieved;
   }
 }
@@ -79,10 +84,10 @@ class Saiyan extends Character {
   }
 
   set damage(value) {
-    this.health -= value;
+    this.stats.health -= value;
     /* Saiyan Race Ability = Damage doubles when health turns red */
-    if (this.health < 300) {
-      this.stats.strength *= 2;
+    if (this.stats.health < 300) {
+      this.attributes.strength *= 2;
       console.log("Saiyan Rage Mode Activated: Strength Doubled");
     }
   }

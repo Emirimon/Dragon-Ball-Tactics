@@ -18,8 +18,8 @@
   --blue-color: #40c9ff;
   --blue-value: 20, 112, 170;
   /* --lime-color : rgb(81, 238, 191); */
-  --lime-color: #26f5ee;
-  --lime-value: 38, 245, 238;
+  --lime-color: #3df9ff;
+  --lime-value: 61, 249, 255;
   --green-color: #6ae652;
   --green-value: 106, 230, 82;
   --yellow-color: #f3d127;
@@ -30,9 +30,11 @@
   --red-value: 247, 39, 39;
   --stat-color: #000046;
   /* --stat-color: #970707; */
-  --stat-value: 151, 7, 7;
+  --stat-value: 0, 0, 70;
   --will: 80%;
   --pride: 64%;
+  --hp1: 100%;
+  --hp2: 100%;
 }
 
 img {
@@ -47,6 +49,7 @@ body {
   overflow-x: hidden;
 }
 
+/* ***************** */
 /* Header */
 
 header {
@@ -81,7 +84,7 @@ header h1 div {
   flex-shrink: 0;
 }
 
-/* ************* */
+/* ***************** */
 /* Arena */
 
 .arena {
@@ -94,7 +97,7 @@ header h1 div {
   /* transition: all 0.6s ease 0.4s; */
 }
 
-.arena.battle {
+.arena.battleState {
   grid-template-columns: 1fr 1fr;
 }
 
@@ -107,28 +110,12 @@ header h1 div {
   transform: translateX(-50%) scale(1.5);
 }
 
-.arena.battle .battle-bell {
-  animation: battle-bell1 0.3s ease 1.5s, battle-bell2 0.3s ease 3s;
+.arena.battleState .battle-bell {
+  animation: battle-bell1 0.3s ease 1.75s, battle-bell2 0.3s ease 3.25s;
   animation-fill-mode: forwards;
 }
 
-@keyframes battle-bell1 {
-  33% {
-    opacity: 1;
-    visibility: visible;
-  }
-  100% {
-    opacity: 1;
-    visibility: visible;
-    transform: translateX(-50%) scale(0.4);
-  }
-}
-@keyframes battle-bell2 {
-  to {
-    transform: translate(-50%, -43.5%) scale(0.2);
-  }
-}
-
+/* ******************** */
 /* Arena Battle Control */
 
 .arena .battle-control {
@@ -136,28 +123,39 @@ header h1 div {
   position: absolute;
   top: 50%;
   left: 50%;
-  /* opacity: 0; */
-  /* visibility: hidden; */
-  transform: translate(-50%,800%);
-  /* transition: all 0.5s ease 5s; */
+  margin-bottom: 10rem;
+  transform: translate(-50%, 250%);
+  opacity: 0;
+  visibility: hidden;
 }
 
-.arena.battle .battle-control {
-  opacity: 1;
-  visibility: visible;
-}
-
-.arena .battle-control img {
-  width: 8rem;
-  height: 8rem;
-  padding: 1rem;
+.arena .battle-control button {
+  width: 7.5rem;
+  height: 7.5rem;
+  flex-shrink: 0;
+  padding: 0;
+  margin: 0 0.5rem;
+  border: 0;
+  background: none;
+  background-color: var(--lime-color);
+  /* background: radial-gradient(circle, #14db25 0%, #14db25cc 70%, #000000 100%); */
+  box-shadow: inset 0 0 3px rgba(0, 0, 0, 0.2);
   border-radius: 100vh;
-  background-color: white;
-  box-shadow: inset 0 0 3px rgb(0 0 0 / 50%);
+  cursor: pointer;
+}
+
+.arena .battle-control button img {
+  padding: 1rem;
   object-fit: contain;
 }
 
+.arena .battle-control button:active {
+  transform: scale(1.15);
+}
+
+/* *********************** */
 /* Arena Character Profile */
+
 .arena .player-info {
   width: 35rem;
   /* height: 47.5rem; */
@@ -165,6 +163,10 @@ header h1 div {
   border: 2px solid var(--stat-color);
   padding: 0.7rem 1rem;
   color: rgb(54, 54, 54);
+}
+
+.arena.battleState .player-info {
+  display: none;
 }
 
 .arena .player-info .avatar {
@@ -295,6 +297,7 @@ header h1 div {
   border-radius: 100vh;
 }
 
+/* ***************** */
 /* Arena Players */
 
 .arena .player-1 {
@@ -317,10 +320,10 @@ header h1 div {
   align-self: end;
   transition: all 0.6s ease 0.4s;
 }
-.arena.battle .player-1 {
+.arena.battleState .player-1 {
   transform: translate(6rem, 10rem);
 }
-.arena.battle .player-2 {
+.arena.battleState .player-2 {
   transform: translate(-6rem, 10rem);
 }
 
@@ -337,16 +340,30 @@ header h1 div {
 .arena .player-box img {
   height: 40rem;
   object-fit: contain;
+  transform: translate3d(0, 0, 0);
+  backface-visibility: hidden;
+  perspective: 1000px;
 }
+/* .arena .player-box.animate img {
+  transform: translate3d(0, 0, 0);
+  backface-visibility: hidden;
+  perspective: 1000px;
+} */
 
 /* ***************** */
 /* Player-stats */
 
 .arena .player-stats {
+  display: flex;
   position: absolute;
   top: -10rem;
-  display: none;
   gap: 1rem;
+}
+
+.arena.battleState .player-stats {
+  opacity: 1;
+  visibility: visible;
+  transition: all 0.5s ease 0.5s;
 }
 
 .arena .player-1 .player-stats {
@@ -378,12 +395,47 @@ header h1 div {
   text-align: center;
 }
 
-.arena.battle .player-stats {
-  display: flex;
-}
-
 .arena .player-stats .player-bars {
   margin-top: 1.5rem;
+}
+
+.arena .player-bars .injury-bar {
+  margin-top: 0.5rem;
+  width: 40rem;
+}
+
+.arena .player-2 .injury-bar {
+  margin-left: auto;
+  direction: rtl;
+}
+
+.arena .player-bars .injury-icon {
+  position: relative;
+  display: inline-block;
+  background-color: var(--stat-color);
+  margin-right: 1rem;
+  width: 3rem;
+  height: 3rem;
+  padding: 0.4rem;
+  border-radius: 100vh;
+}
+
+.arena .player-bars .injury-icon img {
+  object-fit: contain;
+}
+
+.arena .player-bars .injury-icon span {
+  background-color: var(--red-color);
+  position: absolute;
+  font-weight: bold;
+  font-size: 1.1rem;
+  top: -0.3rem;
+  right: -0.9rem;
+  width: 1.55rem;
+  height: 1.55rem;
+  border-radius: 100vh;
+  color: white;
+  text-align: center;
 }
 
 .arena .player-stats .player-bar {
@@ -396,15 +448,35 @@ header h1 div {
 
 .arena .player-stats .player-bar .barfill {
   display: block;
-  width: 100%;
   height: 100%;
+  transition: width 0.3s ease;
   /* border-radius: 1px; */
   /* background-color: var(--red-color); */
 }
 
+.arena .player-stats .player-bar.health .barfill::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
+  transition: width 0.3s ease 1.5s;
+  background-color: var(--red-color);
+  z-index: -1;
+}
+
+.arena .player-1 .player-bar.health .barfill,
+.arena .player-1 .player-bar.health .barfill::before {
+  width: var(--hp1);
+}
+.arena .player-2 .player-bar.health .barfill,
+.arena .player-2 .player-bar.health .barfill::before {
+  width: var(--hp2);
+}
+
 .arena .player-2 .player-bar {
+  transform: rotateY(180deg) skew(-20deg);
   margin-left: auto;
-  transform: skew(20deg);
 }
 
 .arena .player-bar.health {
@@ -422,9 +494,11 @@ header h1 div {
 }
 
 .arena .player-bar.health .barfill {
+  width: 100%;
   background-color: var(--blue-color);
 }
 .arena .player-bar.rage .barfill {
+  width: 30%;
   background-color: var(--red-color);
 }
 .arena .player-bar.transform .barfill {
@@ -451,10 +525,6 @@ header h1 div {
   bottom: 0;
 }
 
-.arena .players .transform-bar .bottom {
-  opacity: 0.9;
-}
-
 .arena .players .transform-border {
   /* position: absolute; */
   /* bottom: 0; */
@@ -471,9 +541,43 @@ header h1 div {
 .arena .players .transform-fill {
   position: absolute;
   bottom: 0;
-  width: 200px;
-  height: 100px;
+  width: 100%;
+  height: 16%;
   background-color: #fff835;
+}
+
+.arena .player-injury {
+  position: absolute;
+  display: flex;
+  bottom: 7.6rem;
+}
+
+.arena .player-1 .player-injury {
+  left: 16rem;
+}
+
+.arena .player-2 .player-injury {
+  right: 16rem;
+}
+
+.arena .player-injury .injury-icon {
+  display: inline-block;
+  background-color: var(--stat-color);
+  margin: 0 0.4rem;
+  width: 4.5rem;
+  height: 4.5rem;
+  padding: 0.7rem;
+  border-radius: 100vh;
+}
+
+.arena .player-injury .injury-icon img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+.arena .player-2 .player-injury {
+  direction: rtl;
 }
 
 .arena .players .player-data {
@@ -490,6 +594,12 @@ header h1 div {
   margin-bottom: 1rem;
 }
 
+.arena.battleState .players .player-data {
+  opacity: 0;
+  visibility: hidden;
+}
+
+/* ***************** */
 /* Characters */
 
 .characters {
@@ -531,6 +641,76 @@ header h1 div {
   object-fit: cover;
 }
 
+/* ***************** */
+/* Specials (Moves) */
+
+.specials {
+  position: absolute;
+  bottom: 0;
+  display: flex;
+  width: 100%;
+  border-top: 2px solid var(--stat-color);
+  opacity: 0;
+  visibility: hidden;
+  overflow: hidden;
+}
+
+.specials .moveset {
+  display: flex;
+  flex-shrink: 0;
+  width: 100%;
+  justify-content: center;
+  margin: 0 auto;
+  padding: 3rem;
+  background-color: #c9d7e3;
+  transition: transform 0.8s ease 1s;
+}
+
+.specials.slide .moveset {
+  transform: translateX(-100%);
+}
+
+.specials .moveset div {
+  width: 12rem;
+  height: 12rem;
+  margin: 0 4rem;
+  border-radius: 100vh;
+  cursor: pointer;
+  overflow: hidden;
+  transition: all 0.01s ease 0.3s;
+}
+
+.specials .moveset div img {
+  border-radius: 100vh;
+  transform: scale(1);
+  transition: all 0.2s ease;
+}
+
+.specials .moveset div:hover {
+  background-color: var(--stat-color);
+  /* border: 3px solid var(--stat-color); */
+  transition: none;
+}
+
+.specials .moveset div:hover img {
+  transform: scale(0.8);
+}
+
+.specials .moveset div:active img {
+  transform: scale(0);
+}
+
+/* BattleState Transition */
+
+.arena.battleState .battle-control,
+.arena.battleState .players .transform-bar,
+.specials.battleState {
+  opacity: 1;
+  visibility: visible;
+  transition: all 0.5s ease 5s;
+}
+
+/* ***************** */
 /* Buttons */
 
 .game-btn {
@@ -544,7 +724,9 @@ header h1 div {
   cursor: pointer;
   background-color: #ff5e5e;
   color: white;
-  transition: all 0.1s cubic-bezier(0.59, 0, 0.68, 0.19);
+  transition: all 0.1s cubic-bezier(0.59, 0, 0.68, 0.19), opacity 0.3s ease 0.4s,
+    visibility 0.3s ease 0.5s;
+  outline: none;
 }
 
 .game-btn:active {
@@ -587,6 +769,85 @@ header h1 div {
   transform: translate(-50%, -100%) scale(1);
 }
 
+/* Global Classes */
+
+.fade-in {
+  opacity: 1;
+  visibility: visible;
+  transition: all 0.5s ease 5s;
+}
+
+.fade-out {
+  opacity: 0;
+  visibility: hidden;
+}
+
+/* Animations */
+
+@keyframes shake1 {
+  10%,
+  90% {
+    transform: translate3d(-1px, 0, 0);
+  }
+
+  20%,
+  80% {
+    transform: translate3d(2px, -1px, 0);
+  }
+
+  30%,
+  50%,
+  70% {
+    transform: translate3d(-3px, 1px, 0);
+  }
+
+  40%,
+  60% {
+    transform: translate3d(3px, -1px, 0);
+  }
+}
+
+@keyframes shake2 {
+  10%,
+  90% {
+    transform: translate3d(-2px, 0, 0);
+  }
+
+  20%,
+  80% {
+    transform: translate3d(3px, -1px, 0);
+  }
+
+  30%,
+  50%,
+  70% {
+    transform: translate3d(-5px, 1px, 0);
+  }
+
+  40%,
+  60% {
+    transform: translate3d(5px, -1px, 0);
+  }
+}
+
+@keyframes battle-bell1 {
+  33% {
+    opacity: 1;
+    visibility: visible;
+  }
+  100% {
+    opacity: 1;
+    visibility: visible;
+    transform: translateX(-50%) scale(0.4);
+  }
+}
+
+@keyframes battle-bell2 {
+  to {
+    transform: translate(-50%, -43.5%) scale(0.2);
+  }
+}
+
 /* Media Queries */
 
 @media screen and (max-width: 1366px) {
@@ -619,5 +880,8 @@ header h1 div {
   }
   .arena .player-2 .transform-bar {
     transform: translateY(2.5rem) scale(0.64) rotateY(180deg);
+  }
+  .specials .moveset {
+    padding: 6rem;
   }
 }
