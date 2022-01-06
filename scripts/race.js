@@ -43,11 +43,11 @@ class Character {
   }
 
   punch() {
-    return this.power * 20;
+    return this.power * (20 - this.injury.upper * 3);
   }
 
   kick() {
-    return this.power * 30;
+    return this.power * (30 - this.injury.lower * 10);
   }
 
   strike(moveNumber) {

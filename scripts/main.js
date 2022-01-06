@@ -50,7 +50,8 @@ const dom = {
   turn() {
     specials.classList.toggle("slide");
   },
-  jerk(round, damage) {
+  jerk(turn, damage) {
+    const round = turn % 2 === 0;
     const player = !round ? player1 : player2;
     const anim = damage === "punch" ? "shake1" : "shake2";
     player.querySelector(
@@ -59,6 +60,16 @@ const dom = {
     setTimeout(() => {
       player.querySelector(".player-box").style.animation = "none";
     }, 1000);
+  },
+  lock(round, index){
+    const player = round ? "player-2" : "player-1";
+    const element = specials.querySelector(`.${player} div[data-movenumber="${index}"]`);
+    classAdd("lock", element);
+  },
+  unlock(round, index){
+    const player = round ? "player-2" : "player-1";
+    const element = specials.querySelector(`.${player} div[data-movenumber="${index}"]`);
+    classRemove("lock", element);
   },
   addSpecials(p1, p2) {
     const movesTemplate = (player, template) => {
@@ -73,7 +84,7 @@ const dom = {
         template.appendChild(skill);
         skill.addEventListener("click", (e) => {
           const button = e.target.closest("div");
-          game.trump(button.dataset.movenumber);
+          game.execute(button.dataset.movenumber,"trump");
         });
       });
       return template;
@@ -215,7 +226,7 @@ battleControl.querySelectorAll("button").forEach((battleBtn) => {
   battleBtn.addEventListener("click", (e) => {
     const button = e.target.closest("button");
     const action = button.id.split("_")[0];
-    game.execute(action);
+    game.execute(action,"action");
   });
 });
 

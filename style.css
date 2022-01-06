@@ -544,6 +544,7 @@ header h1 div {
   width: 100%;
   height: 16%;
   background-color: #fff835;
+  transition: height 0.3s ease;
 }
 
 .arena .player-injury {
@@ -671,13 +672,13 @@ header h1 div {
 }
 
 .specials .moveset div {
-  width: 12rem;
-  height: 12rem;
+  width: 15rem;
+  height: 15rem;
   margin: 0 4rem;
   border-radius: 100vh;
   cursor: pointer;
   overflow: hidden;
-  transition: all 0.01s ease 0.3s;
+  transition: all 0.01s ease 0.3s, filter 0.5s ease 2s;
 }
 
 .specials .moveset div img {
@@ -699,6 +700,12 @@ header h1 div {
 .specials .moveset div:active img {
   transform: scale(0);
 }
+
+.specials .moveset div.lock{
+  pointer-events: none;
+  filter: grayscale(100%);
+}
+
 
 /* BattleState Transition */
 
