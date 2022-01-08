@@ -701,12 +701,6 @@ header h1 div {
   transform: scale(0);
 }
 
-.specials .moveset div.lock{
-  pointer-events: none;
-  filter: grayscale(100%);
-}
-
-
 /* BattleState Transition */
 
 .arena.battleState .battle-control,
@@ -787,6 +781,11 @@ header h1 div {
 .fade-out {
   opacity: 0;
   visibility: hidden;
+}
+
+.lock {
+  pointer-events: none;
+  filter: grayscale(100%);
 }
 
 /* Animations */

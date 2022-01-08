@@ -61,15 +61,21 @@ const dom = {
       player.querySelector(".player-box").style.animation = "none";
     }, 1000);
   },
-  lock(round, index){
-    const player = round ? "player-2" : "player-1";
-    const element = specials.querySelector(`.${player} div[data-movenumber="${index}"]`);
+  lock(element) {
     classAdd("lock", element);
   },
-  unlock(round, index){
+  unlock(element) {
+    classRemove("lock", element);
+  },
+  lockMove(round, index) {
     const player = round ? "player-2" : "player-1";
     const element = specials.querySelector(`.${player} div[data-movenumber="${index}"]`);
-    classRemove("lock", element);
+    this.lock(element);
+  },
+  unlockMove(round, index) {
+    const player = round ? "player-2" : "player-1";
+    const element = specials.querySelector(`.${player} div[data-movenumber="${index}"]`);
+    this.unlock(element);
   },
   addSpecials(p1, p2) {
     const movesTemplate = (player, template) => {
@@ -84,7 +90,7 @@ const dom = {
         template.appendChild(skill);
         skill.addEventListener("click", (e) => {
           const button = e.target.closest("div");
-          game.execute(button.dataset.movenumber,"trump");
+          game.execute(button.dataset.movenumber, "trump");
         });
       });
       return template;
@@ -226,7 +232,7 @@ battleControl.querySelectorAll("button").forEach((battleBtn) => {
   battleBtn.addEventListener("click", (e) => {
     const button = e.target.closest("button");
     const action = button.id.split("_")[0];
-    game.execute(action,"action");
+    game.execute(action, "action");
   });
 });
 
