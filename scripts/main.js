@@ -91,7 +91,7 @@ const dom = {
     }, count * 1200 + 100);
   },
   play(name, val = 1) {
-    const audio = new Audio(`/Audio/${name}`);
+    const audio = new Audio(`Audio/${name}`);
     audio.volume = val;
     audio.play();
   },
@@ -99,7 +99,7 @@ const dom = {
     const curr = bgmusic.src.slice(-5)[0];
     let num = getRand(1, 17);
     while (num === curr) num = getRand(1, 5);
-    bgmusic.src = `/Audio/background/bgmusic${num}.mp3`;
+    bgmusic.src = `Audio/background/bgmusic${num}.mp3`;
     bgmusic.volume = 0.35;
     bgmusic.play();
   },
@@ -211,14 +211,14 @@ const dom = {
   },
   charge(pOverlay) {
     const num = getRand(1, 5);
-    const source = `/img/UI/powerup${num}.png`;
+    const source = `img/UI/powerup${num}.png`;
     this.flickerEffect(pOverlay, source, 1000);
   },
   transform(pOverlay, level) {
     const num = getRand(1, 7);
     const player = game.turn % 2 === 0 ? player1 : player2;
     const body = player.querySelector(".player-box .body");
-    const source = `/img/UI/transform${num}.png`;
+    const source = `img/UI/transform${num}.png`;
     body.classList.add("hide");
     setTimeout(() => {
       this.flickerEffect(pOverlay, source, 1000);
@@ -236,13 +236,13 @@ const dom = {
     const injuryBar = player.querySelector(".player-bars .injury-bar");
     const playerInjury = player.querySelector(".player-box .player-injury");
     injuryBar.innerHTML = playerInjury.innerHTML = "";
-    const source = `/img/UI/recover${num}.png`;
+    const source = `img/UI/recover${num}.png`;
     this.flickerEffect(pOverlay, source, 1000);
   },
   updateDefine(player, move) {
     define.style.display = "block";
     define.querySelector(".avatar h1").innerHTML = convertName(move.name);
-    define.querySelector(".avatar img").src = `/img/arena/${player.name}/Moves/${move.name}.jpg`;
+    define.querySelector(".avatar img").src = `img/arena/${player.name}/Moves/${move.name}.jpg`;
     define.querySelector(".avatar img").alt = move.name;
     define.querySelector(".detail").innerHTML = move.define;
     define.querySelector(".trait .value").innerHTML = move.trait;
@@ -260,7 +260,7 @@ const dom = {
         template.appendChild(skill);
         skill.addEventListener("click", (e) => {
           const battleMove = arena.querySelector(".battle-move");
-          battleMove.querySelector("img").src = `/img/arena/${player.name}/Moves/${move.name}.jpg`;
+          battleMove.querySelector("img").src = `img/arena/${player.name}/Moves/${move.name}.jpg`;
           classToggle("show", battleMove);
           setTimeout(() => {
             classToggle("show", battleMove);
@@ -291,7 +291,7 @@ const dom = {
     const level = trans.length - 1;
     for (let i = 0; i <= level; i++) {
       const transform = document.createElement("img");
-      transform.src = `/img/arena/${name}/Trans/level${i}.png`;
+      transform.src = `img/arena/${name}/Trans/level${i}.png`;
       transform.alt = `${name}_level${i}`;
       transform.classList.add("level");
       levels.appendChild(transform);
@@ -324,11 +324,11 @@ const dom = {
   updateInjury(injury, turn) {
     const elements = [
       `<div class="injury-icon upper">
-    <img src="/img/UI/upper.png" alt="hand-injury" /><span></span></div>`,
+    <img src="img/UI/upper.png" alt="hand-injury" /><span></span></div>`,
       `<div class="injury-icon lower">
-    <img src="/img/UI/leg2.png" alt="leg-injury" /><span></span></div>`,
+    <img src="img/UI/leg2.png" alt="leg-injury" /><span></span></div>`,
       `<div class="injury-icon internal">
-    <img src="/img/UI/internal3.png" alt="internal-injury" /><span></span></div>`,
+    <img src="img/UI/internal3.png" alt="internal-injury" /><span></span></div>`,
     ];
     const player = turn % 2 === 0 ? player2 : player1;
     const injuryBar = player.querySelector(".player-bars .injury-bar");
