@@ -187,15 +187,11 @@ const dom = {
   checkHistory() {
     const history = this.turn % 2 === 0 ? this.p1History : this.p2History;
     Array.from(battleControl.children).forEach((element, index) => {
-      if (history[index] === 0 && element.dataset.lockFor !== 0) {
-        this.lock(element);
-        element.dataset.lockFor -= 1;
-      }
       if (history[index] < 3) {
         this.unlock(element);
       } else {
-        element.dataset.lockFor = 3;
-        history[index] = 0;
+        this.lock(element);
+        history[index] += 1;
       }
     });
   },
