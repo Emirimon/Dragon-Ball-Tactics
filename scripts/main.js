@@ -202,11 +202,11 @@ const dom = {
     this[task](pOverlay, param);
   },
   defend(pOverlay) {
-    const source = "/img/UI/shield.png";
+    const source = "img/UI/shield.png";
     this.addEffect(pOverlay, source);
   },
   dodge(pOverlay) {
-    const source = "/img/UI/dash.png";
+    const source = "img/UI/dash.png";
     this.addEffect(pOverlay, source);
   },
   charge(pOverlay) {
