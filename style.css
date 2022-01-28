@@ -62,7 +62,7 @@ button {
 /* Header */
 
 .main-header {
-  background-image: url("/img/header/dd9hz4s-9028ee7b-6d9c-4e4d-b7b1-48caacd9c434.png");
+  background-image: url("img/header/dd9hz4s-9028ee7b-6d9c-4e4d-b7b1-48caacd9c434.png");
   background-size: cover;
   background-position: 50% 75%;
   border-bottom: 3px solid black;
@@ -800,7 +800,7 @@ button {
   padding: 2rem 3rem;
   font-size: 1.7rem;
   transform: translateX(-50%);
-  background-image: url("/img/UI/old_paper2.jpg");
+  background-image: url("img/UI/old_paper2.jpg");
   background-position: 50% 0%;
   border-radius: 2rem;
   border: 3px solid var(--stat-color);
