@@ -1,29 +1,54 @@
-// import {state} from "./main.js";
+import { dom } from "./main.js";
+import { messages } from "./game.js";
+
 class Character {
   constructor(name, charObj) {
     self = this; /* For referencing later */
     this.name = name;
     this.race = charObj.race;
     this.init = function () {
-      this.attributes = {
-        strength: this.initial.strength + charObj.attributes[0][this.stats.level],
-        resilience: this.initial.resilience + charObj.attributes[1][this.stats.level],
-        speed: this.initial.speed + charObj.attributes[2][this.stats.level],
-        fightIQ: this.initial.intelligence + charObj.attributes[3][this.stats.level],
-      };
       this.will = charObj.will;
       this.pride = charObj.pride;
       this.abilities = charObj.abilities;
-      this.stats.ki = 50 - this.charge * 2;
+      this.stats.trans = charObj.transformations;
       this.stats.resolve = 70 - (this.will + this.pride) * 3;
     };
+    this.getAttributes = function () {
+      return charObj.attributes;
+    };
+    this.fortify = function () {
+      this.stats.ki = 50 - this.charge * 2;
+      const cAttr = this.getAttributes();
+      const level = this.stats.level;
+      this.attributes = {
+        strength: this.initial.strength + cAttr[0][level],
+        resilience: this.initial.resilience + cAttr[1][level],
+        speed: this.initial.speed + cAttr[2][level],
+        fightIQ: this.initial.intelligence + cAttr[3][level],
+        stamina: this.initial.endurance + cAttr[4][level],
+      };
+    };
+    this.enhance = function () {
+      this.stats.ki = 50 - this.charge * 2;
+      const cAttr = this.getAttributes();
+      const level = this.stats.level;
+      this.attributes.strength += cAttr[0][level] - cAttr[0][level - 1];
+      this.attributes.resilience += cAttr[1][level] - cAttr[1][level - 1];
+      this.attributes.speed += cAttr[2][level] - cAttr[2][level - 1];
+      this.attributes.fightIQ += cAttr[3][level] - cAttr[3][level - 1];
+      this.attributes.stamina += cAttr[4][level] - cAttr[4][level - 1];
+    };
   }
-  /* 3 meters */
+  /* 3 meters & other current status*/
   stats = {
-    health: 1000,
+    health: 2000,
     resolve: 0,
     ki: 0,
     level: 0 /* Starting level */,
+    trans: 0 /* Total levels */,
+    dodge: 0,
+    shield: 0,
+    activated: 0,
   };
 
   injury = {
@@ -63,34 +88,43 @@ class Character {
   defend(damagePassed) {
     const damageRecieved = damagePassed / this.defense;
     this.stats.health -= damageRecieved;
-    console.log(damageRecieved);
     return damageRecieved;
   }
 }
 
 class Saiyan extends Character {
-  /* Race Variables */
-  initial = {
-    strength: 5,
-    resilience: 4,
-    speed: 3,
-    intelligence: 2,
-  };
-  charge = 10; /* ki charge multiplier */
-  ability = "Saiyan Rage Mode, starts landing double damage when health bar turns red.";
   constructor(name, charObj) {
     super(name, charObj);
     this.init();
+    this.fortify();
   }
+  /* Race Variables */
+  initial = {
+    strength: 15,
+    resilience: 11,
+    speed: 10,
+    intelligence: 7,
+    endurance: 13,
+  };
+  charge = 10; /* ki charge multiplier */
+  ability = "Saiyan Rage Mode, starts landing double damage when health bar turns red.";
+  base = 0;
 
-  set damage(value) {
-    this.stats.health -= value;
-    /* Saiyan Race Ability = Damage doubles when health turns red */
-    if (this.stats.health < 300) {
-      this.attributes.strength *= 2;
-      console.log("Saiyan Rage Mode Activated: Strength Doubled");
+  activate() {
+    const cAttr = this.getAttributes();
+    const diff = cAttr[0][this.stats.level] - cAttr[0][0];
+    let attr = this.attributes;
+    if (this.stats.health < 300 && this.stats.activated === 0) {
+      this.base = attr.strength - diff;
+      attr.strength = attr.strength < 50 ? attr.strength * 2 : 100;
+      this.stats.activated = 1;
+      messages.push("Saiyan Rage Activated");
+    } else if (this.stats.health > 300 && this.stats.activated === 1) {
+      attr.strength = this.base + diff;
+      this.stats.activated = 0;
+      messages.push("Saiyan Rage Deactivated");
     }
   }
 }
 
-export { Character, Saiyan };
+export { Character, Saiyan, messages };

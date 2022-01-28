@@ -4,17 +4,21 @@
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="font.css" />
     <link rel="stylesheet" href="style.css" />
     <title>Dragon Ball Tactics</title>
   </head>
   <body>
-    <header>
+    <header class="main-header">
       <h1>
         <div>DragonBall</div>
         <img src="/img/header/1200px-Dragonball_(4-Star).svg.png" alt="" />
         <div>TACTICS</div>
       </h1>
     </header>
+    <div class="backdrop">
+      <img src="/img/arena/bg/bg1.jpg" alt="">
+    </div>
     <section class="arena">
       <article class="players player-1">
         <div class="transform-bar fade-out">
@@ -27,16 +31,19 @@
         <div class="player-stats fade-out">
           <div class="avatar">
             <img src="img/characters/goku.jpg" alt="goku-face" />
-            <h2 class="avatar-name">Goku</h2>
           </div>
           <div class="player-bars">
+            <h2 class="avatar-name">Goku</h2>
             <div class="player-bar health">
-              <span class="barfill"></span>
+              <span class="fill1 barfill"></span>
+              <span class="fill2 barfill"></span>
+              <span class="fill3 barfill"></span>
+              <span class="fill4 barfill"></span>
             </div>
             <div class="player-bar rage">
               <span class="barfill"></span>
             </div>
-            <div class="player-bar transform">
+            <div class="player-bar potential">
               <span class="barfill"></span>
             </div>
             <div class="injury-bar">
@@ -56,7 +63,8 @@
           </div>
         </div>
         <div class="player-box">
-          <img src="img/arena/goku/Trans/level0.png" alt="player1" />
+          <img class="overlay" src="" alt="overlay_effect" />
+          <img class="body" src="img/arena/goku/Trans/level0.png" alt="player1" />
           <div class="player-data">
             <p class="player-name">Goku</p>
           </div>
@@ -128,23 +136,27 @@
         <div class="player-stats fade-out">
           <div class="avatar">
             <img src="img/characters/vegeta.jpg" alt="vegeta-face" />
-            <h2 class="avatar-name">Vegeta</h2>
           </div>
           <div class="player-bars">
+            <h2 class="avatar-name">Vegeta</h2>
             <div class="player-bar health">
-              <span class="barfill"></span>
+              <span class="fill1 barfill"></span>
+              <span class="fill2 barfill"></span>
+              <span class="fill3 barfill"></span>
+              <span class="fill4 barfill"></span>
             </div>
             <div class="player-bar rage">
               <span class="barfill"></span>
             </div>
-            <div class="player-bar transform">
+            <div class="player-bar potential">
               <span class="barfill"></span>
             </div>
             <div class="injury-bar"></div>
           </div>
         </div>
         <div class="player-box">
-          <img src="img/arena/vegeta/Trans/level0.png" alt="player2" />
+          <img class="overlay" src="" alt="overlay_effect" />
+          <img class="body" src="img/arena/vegeta/Trans/level0.png" alt="player2" />
           <div class="player-data">
             <p class="player-name">Vegeta</p>
           </div>
@@ -152,14 +164,39 @@
         </div>
       </article>
       <div class="battle-bell">
-        <img src="./img/UI/vs3.png" alt="Battle Start" />
+        <img src="/img/UI/vs3.png" alt="Battle Start" />
+      </div>
+      <div class="battle-move">
+        <img src="/img/arena/goku/Moves/kamehameha.jpg" />
       </div>
       <div class="battle-control">
-        <button id="punch_btn"><img src="./img/UI/punch.png" alt="Punch Button" /></button>
-        <button id="kick_btn"><img src="./img/UI/kick.png" alt="Kick Button" /></button>
-        <button id="defend_btn"><img src="./img/UI/defend.png" alt="Defend Button" /></button>
-        <button id="dodge_btn"><img src="./img/UI/dodge2.png" alt="Dodge Button" /></button>
+        <button id="punch_btn" data-type="action"><img src="./img/UI/punch.png" alt="Punch Button" /></button>
+        <button id="kick_btn" data-type="action"><img src="./img/UI/kick.png" alt="Kick Button" /></button>
+        <button id="charge_btn" data-type="boost"><img src="./img/UI/charge2.png" alt="Charge Button" /></button>
+        <button id="defend_btn" data-type="boost"><img src="./img/UI/defend.png" alt="Defend Button" /></button>
+        <button id="dodge_btn" data-type="boost"><img src="./img/UI/dodge2.png" alt="Dodge Button" /></button>
       </div>
+      <div id="message">
+        <span class="message1 gradient-text"></span>
+        <span class="message2 gradient-text"></span>
+      </div>
+      <article id="define">
+        <header class="avatar">
+          <h1>Kamehameha</h1>
+          <img src="/img/arena/goku/Moves/kamehameha.jpg" alt="kamehameha">
+        </header>
+        <p class="detail">Goku's signature move since obtaining it. It unleashes a powerful and long-stretching blue energy blast from his hands while yelling the famous words KA-ME-HA-ME-HA.</p>
+        <p class="trait">
+          <span class="name">Trait : </span>
+          <span class="value">Shallow probability of injuring torso & legs.</span>
+        </p>
+        <section class="attributes">
+          <div class="attribute">
+            <span class="name">FORCE : </span>
+            <span class="value"></span>
+          </div>
+        </section>
+      </article>
     </section>
     <section class="characters">
       <div class="character">
@@ -217,11 +254,42 @@
         <img src="img/characters/android18.jpg" alt="android18-face" />
       </div>
     </section>
+    <section class="buttons">
+      <button class="transform bell-btn">Transform</button>
+      <button class="restore bell-btn">Senzu Bean</button>
+    </section>
     <section class="specials">
       <div class="moveset player-1"> </div>
       <div class="moveset player-2"> </div>
     </section>
     <button class="btn game-btn">Battle</button>
+    <button class="btn game-btn test-btn">Test</button>
+    <section class="selection">
+      <div class="layer"></div>
+      <div class="players player-1">
+        <div class="levels hideScroll">
+        </div>
+      </div>
+      <div class="choose">
+        <section class="radar radar1">
+          <img src="img/UI/Radar diagram (Blue).png" alt="">
+          <div class="radar-cookie"></div>
+        </section>
+        <section class="radar radar2">
+          <img src="img/UI/Radar diagram (Blue).png" alt="">
+          <div class="radar-cookie"></div>
+        </section> 
+        <div class="btns">
+          <button class="btn game-btn start">Start</button>
+          <button class="btn game-btn normal">Normalize</button>
+        </div>
+      </div>
+      <div class="players player-2">
+        <div class="levels hideScroll">
+        </div>
+      </div>
+    </section>
+    <audio class="bgmusic" src="/Audio/background/bgmusic3.mp3"></audio>
     <script type="module" src="/scripts/main.js"></script>
   </body>
 </html>
