@@ -361,6 +361,11 @@ button {
   border-radius: 100vh;
 }
 
+.arena .player-info .skills .tooltipText {
+  max-width: none;
+  font-weight: bold;
+  border-radius: 5px;
+}
 /* ***************** */
 /* Arena Players */
 
