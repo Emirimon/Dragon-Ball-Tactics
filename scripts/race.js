@@ -1,4 +1,3 @@
-import { dom } from "./main.js";
 import { messages } from "./game.js";
 
 class Character {
@@ -57,6 +56,9 @@ class Character {
     internal: 0 /* Poison Effect */,
   };
 
+  /* Base defense for shield deactivation */
+  baseDef = 0;
+
   /* Init method can use variables of child class to calculate new variables by calling it from child class*/
 
   get power() {
@@ -68,21 +70,30 @@ class Character {
   }
 
   punch() {
-    return this.power * (20 - this.injury.upper * 3);
+    const healthDamage = this.power * (30 - this.injury.upper * 3);
+    const luckDamage = Math.random() * (healthDamage / 1.2) - healthDamage / 2.4;
+    console.log(healthDamage, luckDamage);
+    return healthDamage + luckDamage;
   }
 
   kick() {
-    return this.power * (30 - this.injury.lower * 10);
+    const healthDamage = this.power * (30 - this.injury.lower * 10);
+    const luckDamage = Math.random() * (healthDamage / 5) - healthDamage / 10;
+    console.log(healthDamage, luckDamage);
+    return healthDamage + luckDamage;
   }
 
   strike(moveNumber) {
     const damageCriteria = this.abilities[moveNumber].damage;
-    const healthDamage = this.power * damageCriteria.health + (Math.random() * 1000 - 500);
+    const healthDamage = this.power * damageCriteria.health;
+    const luckDamage = Math.random() * (healthDamage / 4) - healthDamage / 8;
+    const totalDamage = healthDamage + luckDamage;
+    console.log(healthDamage, luckDamage);
     let injury = [];
-    injury[0] = 1 - Math.random() - damageCriteria.upper > 0 ? 0 : 1;
-    injury[1] = 1 - Math.random() - damageCriteria.lower > 0 ? 0 : 1;
-    injury[2] = 1 - Math.random() - damageCriteria.internal > 0 ? 0 : 1;
-    return { healthDamage, injury };
+    injury[0] = Math.random() - damageCriteria.upper <= 0 ? 1 : 0;
+    injury[1] = Math.random() - damageCriteria.lower <= 0 ? 1 : 0;
+    injury[2] = Math.random() - damageCriteria.internal <= 0 ? 1 : 0;
+    return { totalDamage, injury };
   }
 
   defend(damagePassed) {
@@ -108,21 +119,23 @@ class Saiyan extends Character {
   };
   charge = 10; /* ki charge multiplier */
   ability = "Saiyan Rage Mode, starts landing double damage when health bar turns red.";
-  base = 0;
+  baseStr = 0;
 
   activate() {
     const cAttr = this.getAttributes();
     const diff = cAttr[0][this.stats.level] - cAttr[0][0];
     let attr = this.attributes;
     if (this.stats.health < 300 && this.stats.activated === 0) {
-      this.base = attr.strength - diff;
+      this.baseStr = attr.strength - diff;
       attr.strength = attr.strength < 50 ? attr.strength * 2 : 100;
       this.stats.activated = 1;
-      messages.push("Saiyan Rage Activated");
+      messages.push("Saiyan Rage Mode");
+      messages.push("Activated");
     } else if (this.stats.health > 300 && this.stats.activated === 1) {
-      attr.strength = this.base + diff;
+      attr.strength = this.baseStr + diff;
       this.stats.activated = 0;
-      messages.push("Saiyan Rage Deactivated");
+      messages.push("Saiyan Rage Mode");
+      messages.push("Deactivated");
     }
   }
 }

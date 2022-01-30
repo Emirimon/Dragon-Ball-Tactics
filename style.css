@@ -289,8 +289,12 @@ button {
   transform: translate(-50%, -47%);
   clip-path: polygon(50% 4.5%, 96.93% 38.59%, 79.3% 94.4%, 20.7% 94.4%, 3.07% 38.59%);
   background: linear-gradient(45deg, rgba(255, 103, 110, 1) 0%, rgb(255, 198, 128) 100%);
-  opacity: 0.85;
+  opacity: 0.925;
   transition: all 0.3s ease;
+}
+
+.arena .player-info .radar .radar-cookie {
+  opacity: 0.85;
 }
 
 .arena .player-info section > h3 {
@@ -639,6 +643,51 @@ button {
   background-color: var(--lime-color);
 }
 
+/* Race Ability Image */
+.arena .players .ability {
+  position: absolute;
+  bottom: 30rem;
+  width: 7rem;
+  height: 7rem;
+  border-radius: 100vh;
+  box-shadow: 0 0 2px black;
+  opacity: 0;
+  visibility: hidden;
+}
+
+.arena .players .ability.show {
+  opacity: 1;
+  visibility: visible;
+}
+
+.arena .player-1 .ability {
+  left: -8.5rem;
+}
+.arena .player-2 .ability {
+  right: -8.5rem;
+}
+
+/* Radar of Arena */
+.arena .players .radar {
+  position: fixed;
+  top: -10rem;
+}
+.arena .players .radar img {
+  width: 12rem;
+  height: 12rem;
+}
+.arena .players .radar .radar-cookie {
+  width: 9.5rem;
+  height: 9.5rem;
+}
+
+.arena .player-1 .radar {
+  left: -25rem;
+}
+.arena .player-2 .radar {
+  right: -25rem;
+}
+
 .arena .players .transform-bar {
   position: absolute;
   width: 200px;
@@ -746,6 +795,7 @@ button {
   top: 60%;
   left: 50%;
   width: 50%;
+  z-index: 2;
 }
 
 .arena #message span {
@@ -989,12 +1039,14 @@ button {
 /* BattleState Transition */
 
 .arena .battle-control,
+.arena .players .radar,
 .arena .players .transform-bar,
 .buttons,
 .specials {
   transition: all 0.5s ease 3.5s;
 }
 .arena .battle-control.battleState,
+.arena .players.battleState .radar,
 .arena .players.battleState .transform-bar,
 .buttons.battleState,
 .specials.battleState,
@@ -1012,12 +1064,6 @@ button {
 
 /* ***************** */
 /* Buttons */
-
-.test-btn {
-  position: fixed;
-  top: 65rem;
-  right: 2rem;
-}
 
 .game-btn {
   display: block;
@@ -1040,6 +1086,16 @@ button {
   transform: translate(-3px, 3px);
   transition: none;
 }
+
+.test-btn {
+  position: fixed;
+  top: 65rem;
+  right: 2rem;
+  display: none;
+}
+
+/* ***************** */
+/* Selection Window */
 
 .selection {
   position: fixed;
@@ -1100,10 +1156,16 @@ button {
 
 .selection .choose .radar {
   align-self: center;
-  width: 25rem;
-  height: 25rem;
   opacity: 0;
   transition: all 0.3s ease 0.8s;
+}
+.selection .choose .radar img {
+  width: 25rem;
+  height: 25rem;
+}
+.selection .choose .radar .radar-cookie {
+  width: 21rem;
+  height: 21rem;
 }
 .selection .choose .radar1 {
   justify-self: start;

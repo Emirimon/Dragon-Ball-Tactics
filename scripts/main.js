@@ -1,5 +1,5 @@
 /* This File controls DOM */
-import { game } from "./game.js";
+import { game, messages } from "./game.js";
 
 /* Queries */
 const arena = document.querySelector(".arena");
@@ -23,6 +23,69 @@ const test = document.querySelector(".test-btn");
 let state = 1;
 let p1Name = "goku";
 let p2Name = "vegeta";
+let comments = [
+  "Fierce",
+  "Ferrrocious",
+  "Brutal",
+  "Barbarous",
+  "Wild",
+  "Barbaric",
+  "Vicious",
+  "Inhuman",
+  "Ruthless",
+  "Marvelous",
+  "Frivolous",
+  "Savage",
+  "Untamed",
+  "Predatory",
+  "Ravening",
+  "Crushing",
+  "Devastating",
+  "Crippling",
+  "Dreadful",
+  "Catastrophic",
+  "Calamitous",
+  "Lethal Blow",
+  "Fatal Blow",
+  "Beast",
+  "Monster",
+  "Barbarian",
+  "Great Ape",
+  "Ogre",
+  "Demon",
+  "Sadistic",
+  "Violent",
+  "Bloody FireWorks",
+  "Murderous",
+  "BloodThirsty",
+  "Ruthless",
+  "Merciless",
+  "Apocalyptic",
+  "Callous",
+  "Abominable",
+  "Wicked",
+  "Monsterous",
+  "Cold Blooded",
+  "Heartless",
+  "Remorseless",
+  "Sadistic",
+  "Heinous",
+  "Cataclysm",
+  "Annihilation",
+  "Ravaging",
+  "Butcher",
+  "Devastation",
+  "Slaughter",
+  "Massacre",
+  "Carnage",
+  "Demolition",
+  "Execution",
+  "Destroy",
+  "Extinction",
+  "Obliterate",
+  "Exterminate",
+  "Demolition",
+];
 
 /* If element contains this classname, return true */
 const contains = (element, classname) => element.classList.contains(classname);
@@ -90,15 +153,22 @@ const dom = {
       message.classList.remove("show");
     }, count * 1200 + 100);
   },
+  chooseRank(damage) {
+    if (damage) {
+      const num = comments.length;
+      const msg = comments[getRand(0, num - 1)];
+      messages.push(msg);
+    }
+  },
   play(name, val = 1) {
     const audio = new Audio(`Audio/${name}`);
     audio.volume = val;
     audio.play();
   },
   playbg() {
-    const curr = bgmusic.src.slice(-5)[0];
+    const curr = +bgmusic.src.slice(-5)[0];
     let num = getRand(1, 17);
-    while (num === curr) num = getRand(1, 5);
+    while (num === curr) num = getRand(1, 17);
     bgmusic.src = `Audio/background/bgmusic${num}.mp3`;
     bgmusic.volume = 0.35;
     bgmusic.play();
@@ -120,11 +190,47 @@ const dom = {
       player.querySelector(".player-box .body").style.animation = "";
     }, 1000);
   },
-  lock(element) {
+  lock(element, key = 1) {
+    if (!element.dataset.lockkeys.includes(`${key}`)) element.dataset.lockkeys += key;
+    /* Multiple Lock or Single lock doesn't matter. If there is even one lock, the safe is locked. */
     classAdd("lock", element);
   },
-  unlock(element) {
-    classRemove("lock", element);
+  unlock(element, key = 1) {
+    element.dataset.lockkeys = element.dataset.lockkeys.replace(`${key}`, "");
+    /* Multiple Lock or Single lock matters. For unlocking, all locks need to be unlocked. And one lock cannot be unlocked with another lock's key*/
+    if (!element.dataset.lockkeys) classRemove("lock", element);
+  },
+  lockAction(striker, defender, bonus) {
+    let player;
+    /* Locking leg */
+    const kickBtn = document.getElementById("kick_btn");
+    player = bonus ? striker : defender;
+    if (player.injury.lower >= 3) {
+      this.lock(kickBtn, 2); /* Same Key Passed */
+    } else {
+      this.unlock(kickBtn, 2); /* Same Key Passed */
+    }
+    /* Locking charge */
+    const chargeBtn = document.getElementById("charge_btn");
+    player = bonus ? defender : striker;
+    if (player.stats.shield || player.stats.dodge) {
+      this.lock(chargeBtn, 2);
+    } else {
+      this.unlock(chargeBtn, 2);
+    }
+    /* Locking defend & dodge */
+    const defendBtn = document.getElementById("defend_btn");
+    const dodgeBtn = document.getElementById("dodge_btn");
+    player = bonus ? striker : defender;
+    if (player.stats.ki < player.charge * 2) {
+      this.lock(defendBtn, 2);
+      this.lock(dodgeBtn, 2);
+    } else {
+      this.unlock(defendBtn, 2);
+      this.unlock(dodgeBtn, 2);
+    }
+    if (bonus) this.checkHistory(game.turn + 1);
+    else this.checkHistory(game.turn);
   },
   lockMove(round, index) {
     const player = round ? "player-2" : "player-1";
@@ -150,9 +256,9 @@ const dom = {
       restore.classList.remove("show");
     }
   },
-  normalize(base, character) {
+  normalize(base, attributes) {
     const radar = selectWindow.querySelector(`${base === 1 ? ".radar2" : ".radar1"} .radar-cookie`);
-    radar.style["clip-path"] = shapeRadar(character);
+    radar.style["clip-path"] = shapeRadar(attributes);
   },
   removeEffect(overlay) {
     overlay.classList.remove("show");
@@ -184,16 +290,39 @@ const dom = {
     const pOverlay = defender.querySelector(".player-box .overlay");
     if (!stats.dodge && !stats.shield) pOverlay.className = "overlay";
   },
-  checkHistory() {
-    const history = this.turn % 2 === 0 ? this.p1History : this.p2History;
+  resetHistory() {
+    const history = game.turn % 2 === 0 ? this.p1History : this.p2History;
+    history.fill(0);
+  },
+  checkHistory(turn) {
+    const history = turn % 2 === 0 ? this.p2History : this.p1History;
     Array.from(battleControl.children).forEach((element, index) => {
       if (history[index] < 3) {
         this.unlock(element);
+      } else if (history[index] === 6) {
+        this.unlock(element);
+        history[index] = 0;
       } else {
         this.lock(element);
         history[index] += 1;
       }
     });
+  },
+  checkAbility(p1, p2) {
+    const ability1 = player1.querySelector(".ability");
+    const ability2 = player2.querySelector(".ability");
+    if (p1.stats.activated) {
+      ability1.src = `img/arena/abilities/${p1.race}.jpg`;
+      ability1.classList.add("show");
+    } else {
+      ability1.classList.remove("show");
+    }
+    if (p2.stats.activated) {
+      ability2.src = `img/arena/abilities/${p2.race}.jpg`;
+      ability2.classList.add("show");
+    } else {
+      ability2.classList.remove("show");
+    }
   },
   overlay(task, param) {
     const player = game.turn % 2 === 0 ? player1 : player2;
@@ -253,6 +382,7 @@ const dom = {
       player.abilities.forEach((move, index) => {
         const skill = document.createElement("div");
         skill.classList.add("move-box");
+        skill.dataset.lockkeys = "";
         skill.setAttribute("data-movenumber", index);
         skill.innerHTML = `
             <img src="img/arena/${player.name}/Moves/${move.name}.jpg" alt="${move.name}">
@@ -321,6 +451,12 @@ const dom = {
     player2.querySelector(".transform-fill").style.height = `${p2Stats.resolve}%`;
     this.checkBoost(game.turn % 2 === 0 ? p2Stats : p1Stats);
   },
+  updateRadar(p1Attr, p2Attr) {
+    const radar1 = player1.querySelector(".radar .radar-cookie");
+    const radar2 = player2.querySelector(".radar .radar-cookie");
+    radar1.style["clip-path"] = shapeRadar(p1Attr);
+    radar2.style["clip-path"] = shapeRadar(p2Attr);
+  },
   updateInjury(injury, turn) {
     const elements = [
       `<div class="injury-icon upper">
@@ -363,10 +499,10 @@ const fetchPlayer = (playerName, state) => {
   bars.children[0].innerText = capFirst(playerName);
 };
 
-const shapeRadar = (character) => {
+const shapeRadar = (attributes) => {
   const max = 25;
   let radarPoints = [];
-  const { strength, resilience, speed, fightIQ, stamina } = character.attributes;
+  const { strength, resilience, speed, fightIQ, stamina } = attributes;
   const fp = (max - fightIQ / 4) * 1.6;
   const sp = (max - strength / 4) * 1.6;
   const rp = (max - resilience / 4) * 1.6;
@@ -398,7 +534,7 @@ const updateInfo = (name) => {
   playerName.innerHTML = capFirst(name);
   race.innerHTML = character.constructor.name;
   ability.innerHTML = character.ability;
-  radar.style["clip-path"] = shapeRadar(character);
+  radar.style["clip-path"] = shapeRadar(character.attributes);
   character.abilities.forEach((move, index) => {
     if (index < 5) {
       const skill = document.createElement("div");
@@ -452,7 +588,7 @@ const levelHover = (e) => {
     const character = game.instance(name);
     character.stats.level = level;
     character.fortify();
-    radar.style["clip-path"] = shapeRadar(character);
+    radar.style["clip-path"] = shapeRadar(character.attributes);
   }
 };
 
@@ -540,8 +676,16 @@ selectWindow.addEventListener("click", levelClick);
 
 selectWindow.addEventListener("mouseover", levelHover);
 
-battleControl.querySelectorAll("button").forEach((battleBtn) => {
+battleControl.querySelectorAll("button").forEach((battleBtn, index) => {
   battleBtn.addEventListener("click", (e) => {
+    const history = game.turn % 2 === 0 ? dom.p1History : dom.p2History;
+    history.forEach((action, i) => {
+      if (i === index) {
+        history[i] += 1;
+      } else if (action < 3) {
+        history[i] = 0;
+      }
+    });
     const id = battleBtn.id.split("_")[0];
     switch (id) {
       case "punch":
